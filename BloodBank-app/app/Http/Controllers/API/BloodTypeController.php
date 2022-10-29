@@ -5,8 +5,9 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\bloodType;
-use Validator;
+// use Validator;
 use App\Http\Resources\bloodTypeResource;
+use Illuminate\Support\Facades\Validator;
 
 
 class BloodTypeController extends BaseController
@@ -48,12 +49,28 @@ class BloodTypeController extends BaseController
      * @param  \App\Models\bloodType  $bloodType
      * @return \Illuminate\Http\Response
      */
-    public function show(bloodType $bloodType)
+    public function show($id)
     {
+        $bloodType = bloodType::find($id);
+
         if (is_null($bloodType)) {
             return $this->sendError('Blood Type not found.');
         }
         return $this->sendResponse(new bloodTypeResource($bloodType), 'Blood Type retrieved successfully.');
+    }
+    
+
+      /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Facility  $facility
+     * @return \Illuminate\Http\Response
+     */
+
+    public function edit(bloodType $bloodType)
+    {
+        //
+        
     }
 
     /**
@@ -66,12 +83,15 @@ class BloodTypeController extends BaseController
     public function update(Request $request, bloodType $bloodType)
     {
         $input = $request->all();
+
         $validator = Validator::make($input, [
             'name' => 'required',
         ]);
+
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
+        
         $bloodType->name = $input['name'];
         $bloodType->save();
         return $this->sendResponse(new bloodTypeResource($bloodType), 'Blood Type updated successfully.');
@@ -84,8 +104,12 @@ class BloodTypeController extends BaseController
         * @return \Illuminate\Http\Response
         */
 
-    public function destroy(bloodType $bloodType)
+    public function destroy($id)
     {
+        $bloodType = bloodType::find($id);
+        if (is_null($bloodType)) {
+            return $this->sendError('Blood Type not found.');
+        }
         $bloodType->delete();
         return $this->sendResponse([], 'Blood Type deleted successfully.');
     }

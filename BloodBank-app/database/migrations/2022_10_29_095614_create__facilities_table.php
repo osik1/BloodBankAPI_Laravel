@@ -13,9 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('blood_types', function (Blueprint $table) {
+        Schema::create('facilities', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 10);
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('name');
+            $table->string('address');
+            $table->string('phone');
+            $table->string('email');
+            $table->string('city');
+            $table->string('region');
+            $table->string('gps');
             $table->timestamps();
         });
     }
@@ -27,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('blood_type');
+        Schema::dropIfExists('_facilities');
     }
 };

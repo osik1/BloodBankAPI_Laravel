@@ -17,10 +17,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $primaryKey = 'id';
+    
     protected $fillable = [
         'name',
         'email',
         'password',
+        'position',
+        'phone',
+        'ghanaCard_id'
     ];
 
     /**
@@ -41,4 +46,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * One to One relation
+     */
+    public function facility()
+    {
+        return $this->hasOne(Facility::class);
+    }
+
+    /**
+     * One to Many relation
+     */
+    public function bloodRequest()
+    {
+        return $this->hasMany(bloodRequest::class);
+    }
 }

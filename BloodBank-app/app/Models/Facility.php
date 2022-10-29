@@ -1,36 +1,43 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class bloodType extends Model
+class Facility extends Model
 {
     use HasFactory;
-
+    
         /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $primaryKey = 'id';
+
     protected $fillable = [
         'name',
-    
+        'address',
+        'phone',
+        'email',
+        'city',
+        'region',
+        'gps',
     ];
+
+    /**
+     * Get the User that owns the Facility
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+        'user_id';
+    }
 
 
     /**
      * One to Many relation
-     */
-
-    public function bloodType()
-    {
-        return $this->hasMany(BloodType::class);
-    }
-
-    /**
-     * has many relation
      */
     public function bloodRequest()
     {
