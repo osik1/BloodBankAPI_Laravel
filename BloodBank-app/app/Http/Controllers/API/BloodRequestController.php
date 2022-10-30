@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\bloodRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\bloodRequestResource;
 
-class BloodRequestController extends Controller
+class BloodRequestController extends BaseController
 {
     /**
      * Display a listing of the resource.

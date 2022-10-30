@@ -7,7 +7,7 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\bloodType;
 // use Validator;
 use App\Http\Resources\bloodTypeResource;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Validator; 
 
 
 class BloodTypeController extends BaseController

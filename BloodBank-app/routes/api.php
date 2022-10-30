@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\API\BloodTypeController;
 use App\Http\Controllers\API\FacilityController;
+use App\Http\Controllers\API\BloodRequestController;
 
 
 /*

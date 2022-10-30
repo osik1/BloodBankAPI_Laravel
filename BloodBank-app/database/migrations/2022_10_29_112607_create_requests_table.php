@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bloodrequests', function (Blueprint $table) {
+        Schema::create('blood_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('facility_id')->constrained('Facility')->onDelete('cascade');
             $table->foreignId('bloodType_id')->constrained('bloodType')->onDelete('cascade');
