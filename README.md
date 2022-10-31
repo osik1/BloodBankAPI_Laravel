@@ -12,7 +12,7 @@ php artisan make:migration create_[TABLE-NAME]_table
 php artisan migrate
 
 # CREATE A MODEL
-php artisan make:model [model-name] -m
+php artisan make:model [model-name] -m 
 
 # CREATE CONTROLLER
 php artisan make:controller Api\\[name]Controller --model=[model-name]

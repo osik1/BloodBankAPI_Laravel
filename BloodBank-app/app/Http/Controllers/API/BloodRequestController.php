@@ -37,6 +37,25 @@ class BloodRequestController extends BaseController
     }
 
 
+    
+    /**
+     * Display all listing of the resources for a specific facility that is pending.
+     */
+    public function facilityPending($id)
+    {
+        $bloodRequests = bloodRequest::where('facility_id', $id)->where('status', 0)->get();
+        return $this->sendResponse(bloodRequestResource::collection($bloodRequests), 'Blood Requests retrieved successfully.');
+    }
+
+
+    /**
+     * Display all listing of the resources for a specific Blood Request made by the logged in user.
+    */
+    public function userBloodRequests($id)
+    {
+        $bloodRequests = bloodRequest::where('user_id', $id)->get();
+        return $this->sendResponse(bloodRequestResource::collection($bloodRequests), 'Blood Requests retrieved successfully.');
+    }
 
 
 
@@ -110,7 +129,7 @@ class BloodRequestController extends BaseController
     
 
     /**
-     * Display the specifies resoure by the facility_id.
+     * Display all the specified resoure by the facility_id.
      */
     public function showByFacility($facility_id)
     {
@@ -177,7 +196,19 @@ class BloodRequestController extends BaseController
             return $this->sendResponse(new bloodRequestResource($bloodRequest), 'Blood Request approved successfully.');
      }
 
+    
 
+     /**
+      * Disapprove the specified resource in storage by id
+      */
+        public function disapprove($id)
+        {
+            //
+            $bloodRequest = bloodRequest::find($id);
+            $bloodRequest->status = 0;
+            $bloodRequest->save();
+            return $this->sendResponse(new bloodRequestResource($bloodRequest), 'Blood Request disapproved successfully.');
+        }
 
 
 

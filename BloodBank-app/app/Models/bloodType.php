@@ -24,16 +24,26 @@ class bloodType extends Model
      * One to Many relation
      */
 
-    public function bloodType()
-    {
-        return $this->hasMany(BloodType::class);
-    }
+    // public function bloodType()
+    // {
+    //     return $this->hasMany(BloodType::class);
+    // }
 
     /**
      * has many relation
      */
     public function bloodRequest()
     {
-        return $this->hasMany(BloodRequest::class);
+        return $this->hasMany(bloodRequest::class);
     }
+
+    /**
+     * has many relation
+     */
+    public function openBloodRequest()
+    {
+        return $this->hasMany(openBloodRequest::class);
+    }
+
+    
 }

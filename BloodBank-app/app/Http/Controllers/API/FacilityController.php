@@ -117,6 +117,21 @@ class FacilityController extends BaseController
         return $this->sendResponse(new facilityResource($facility), 'Facility updated successfully.');
     }
 
+
+    /**
+     * Display the specified resource owned by the user.
+     */
+     public function showByLoggedUser()
+     {
+         //
+         $facility = Facility::where('user_id', auth()->user()->id)->first();
+         if (is_null($facility)) {
+             return $this->sendError('Facility not found.');
+         }
+         return $this->sendResponse(new facilityResource($facility), 'Facility retrieved successfully.');
+     }
+
+
     /**
      * Remove the specified resource from storage.
      *

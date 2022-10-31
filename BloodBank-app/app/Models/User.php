@@ -62,4 +62,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(bloodRequest::class);
     }
+
+    /**
+     * One to Many relation
+     */
+    public function openBloodRequest()
+    {
+        return $this->hasMany(openBloodRequest::class);
+    }
 }

@@ -43,7 +43,7 @@ class bloodRequest extends Model
     public function bloodType()
     {
         return $this->belongsTo(bloodType::class);
-        'blood_type_id';
+        'bloodType_id';
     }
 
     /**

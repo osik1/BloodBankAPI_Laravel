@@ -6,6 +6,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class facilityResource extends JsonResource
 {
+
+
     /**
      * Transform the resource into an array.
      *
@@ -16,6 +18,8 @@ class facilityResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            // 'user_id' => $this->user_id,
+            'admin' => $this->user->name,
             'name' => $this->name,
             'address' => $this->address,
             'phone' => $this->phone,
@@ -28,4 +32,17 @@ class facilityResource extends JsonResource
         ];
         // return parent::toArray($request);
     }
+
+    /**
+     * Use the user_id to get the username of the user that owns the facility
+     */
+    public function with($request)
+    {
+        return [
+            'user_id' => $this->user_id,
+            'username' => $this->user->name,
+        ];
+    }
+    
+    
 }

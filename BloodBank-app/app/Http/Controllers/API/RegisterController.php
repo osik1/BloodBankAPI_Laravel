@@ -5,8 +5,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-// use Validator;
-use Illuminate\Support\Facades\Validator;
+use Validator;
+// use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\UserResource;
 
 
@@ -41,7 +41,7 @@ class RegisterController extends BaseController
         $success['token'] =  $user->createToken('MyApp')->plainTextToken;
         $success['name'] =  $user->name;
 
-        return $this->sendResponse($success, 'User register successfully.');
+        return $this->sendResponse($success, 'User registered successfully.');
     }
 
     /**
@@ -152,9 +152,132 @@ class RegisterController extends BaseController
      * @return \Illuminate\Http\Response
      */
 
-    public function update(Request $request, User $user)
+    public function update($id, Request $request)
     {
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+            'c_password' => 'required|same:password',
+            'position' => 'required',
+            'phone' => 'required',
+            'ghanaCard_id' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
+        }
+
+        $user = User::find($id);
+        if (is_null($user)) {
+            return $this->sendError('User not found.');
+        }
+
+        $user->name = $input['name'];
+        $user->email = $input['email'];
+        $user->password = bcrypt($input['password']);
+        $user->position = $input['position'];
+        $user->phone = $input['phone'];
+        $user->ghanaCard_id = $input['ghanaCard_id'];
+        $user->save();
+
+        return $this->sendResponse(new UserResource($user), 'User updated successfully.');
+    }
+
+
+    /**
+     * User profile
+     */
+    public function profile()
+    {
+        $user = Auth::user();
+        return $this->sendResponse(new UserResource($user), 'User profile retrieved successfully.');
         
     }
+
+
+    /**
+     * Edit auth user profile
+     */
+    public function editProfile(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+            'c_password' => 'required|same:password',
+            'position' => 'required',
+            'phone' => 'required',
+            'ghanaCard_id' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
+        }
+
+        $user = Auth::user();
+        $user->name = $input['name'];
+        $user->email = $input['email'];
+        $user->password = bcrypt($input['password']);
+        $user->position = $input['position'];
+        $user->phone = $input['phone'];
+        $user->ghanaCard_id = $input['ghanaCard_id'];
+        $user->save();
+
+        return $this->sendResponse(new UserResource($user), 'User profile updated successfully.');
+    }
+
+
+    /**
+     * Update the password for the user.
+     */
+    public function updatePassword(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'current_password' => 'required',
+            'password' => 'required',
+            'c_password' => 'required|same:password',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
+        }
+
+        $user = Auth::user();
+        if(Hash::check($input['current_password'], $user->password)){
+            $user->password = bcrypt($input['password']);
+            $user->save();
+            return $this->sendResponse(new UserResource($user), 'User password updated successfully.');
+        }
+        else{
+            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+        }
+    }
+   
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $user = User::find($id);
+        if (is_null($user)) {
+            return $this->sendError('User not found.');
+        }
+        $user->delete();
+        return $this->sendResponse([], 'User deleted successfully.');
+    }
+
+
+
 
 }

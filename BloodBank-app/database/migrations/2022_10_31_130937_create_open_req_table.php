@@ -13,16 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('facilities', function (Blueprint $table) {
+        Schema::create('open_req', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('name');
-            $table->string('address');
-            $table->string('phone');
-            $table->string('email');
-            $table->string('city');
-            $table->string('region');
-            $table->string('gps');
+            $table->bloodType_id();
+            $table->user_id();
+            $table->string('quantity');
+            $table->status();
             $table->timestamps();
         });
     }
@@ -34,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('facilities');
+        Schema::dropIfExists('open_req');
     }
 };
