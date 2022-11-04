@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('blood_requests', function (Blueprint $table) {
-            $table->id(); // auto-incrementing primary key
-            $table->foreignId('facility_id')->constrained('Facility')->onDelete('cascade');
+        Schema::create('recieved_stocks', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('bloodRequest_id')->constrained('bloodRequest')->onDelete('cascade') ;
             $table->foreignId('bloodType_id')->constrained('bloodType')->onDelete('cascade');
-            $table->string('quantity');
+            $table->quantity();
             $table->foreignId('user_id')->constrained('User')->onDelete('cascade');
-            $table->string('status');
-            $table->string('ref_code');
+            $table->status();
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bloodrequests');
+        Schema::dropIfExists('recieved_stocks');
     }
 };

@@ -18,4 +18,4 @@ php artisan make:model [model-name] -m
 php artisan make:controller Api\\[name]Controller --model=[model-name]
 
 # CREATE RESOURCES
-$ php artisan make:resource [name]Resource
+php artisan make:resource [name]Resource

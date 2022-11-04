@@ -57,7 +57,15 @@ class BloodRequestController extends BaseController
         return $this->sendResponse(bloodRequestResource::collection($bloodRequests), 'Blood Requests retrieved successfully.');
     }
 
-
+    
+    /**
+     * Display all listings of the resources for a specific blood request that is delivered by the logged in user
+     */
+    public function userDelivered($id)
+    {
+        $bloodRequests = bloodRequest::where('user_id', $id)->where('status', 2)->get();
+        return $this->sendResponse(bloodRequestResource::collection($bloodRequests), 'Blood Requests retrieved successfully.');
+    }
 
 
     /**
@@ -210,7 +218,21 @@ class BloodRequestController extends BaseController
             return $this->sendResponse(new bloodRequestResource($bloodRequest), 'Blood Request disapproved successfully.');
         }
 
+     /**
+      * Deliver the specified resource in storage by id
+      */
+        public function deliver($id)
+        {
+            //
+            $bloodRequest = bloodRequest::find($id);
+            $bloodRequest->status = 2;
+            $bloodRequest->save();
+            return $this->sendResponse(new bloodRequestResource($bloodRequest), 'Blood Request delivered successfully.');
+        }
 
+
+    
+      
 
 
 

@@ -69,10 +69,12 @@ Route::controller(BloodRequestController::class)->group(function () {
     Route::get('blood-requests/approved/{facility_id}', 'facilityApproved');
     Route::get('blood-requests/pending/{facility_id}', 'facilityPending');
     Route::get('user-blood-requests/{user_id}', 'userBloodRequests');
+    Route::get('user-blood-requests/delivered/{user_id}', 'userDelivered');
     Route::post('blood-request', 'store');
     Route::put('blood-request/{id}', 'update');
     Route::put('blood-request/approve/{id}', 'approve');
     Route::put('blood-request/disapprove/{id}', 'disapprove');
+    Route::put('blood-request/deliver/{id}', 'deliver');
     Route::delete('blood-request/{id}', 'destroy');
 });
 

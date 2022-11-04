@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('open_req', function (Blueprint $table) {
+        Schema::create('inventory', function (Blueprint $table) {
             $table->id();
-            $table->bloodType_id();
-            $table->user_id();
-            $table->string('quantity');
-            $table->status();
+            $table->foreignId('bloodType_id')->constrained('bloodType')->onDelete('cascade');
+            $table->integer('quantity');
+            $table->foreignId('facility_id')->constrained('Facility')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('open_req');
+        Schema::dropIfExists('inventory');
     }
 };
